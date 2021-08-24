@@ -21,7 +21,10 @@ data = np.loadtxt(input_filename)
 # we discard the last two rows, since they are outside r500
 x = unyt.unyt_array(10.0 ** data[:-2, 0], unyt.dimensionless)
 y = unyt.unyt_array(10.0 ** data[:-2, 1], unyt.cm ** (-3))
-yerr = unyt.unyt_array(10.0 ** data[:-2, 2:].T, unyt.cm ** (-3))
+yerr = np.zeros((2, data.shape[0]-2))
+yerr[0, :] = 10.0 ** (data[:-2, 1] - data[:-2, 2])
+yerr[1, :] = 10.0 ** (data[:-2, 3] - data[:-2, 1])
+yerr = unyt.unyt_array(yerr, unyt.cm ** (-3))
 
 # Meta-data
 comment = "No comment"

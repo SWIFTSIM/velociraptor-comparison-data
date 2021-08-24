@@ -19,8 +19,11 @@ if not os.path.exists(output_directory):
 
 data = np.loadtxt(input_filename, skiprows=1, delimiter=",")
 x = unyt.unyt_array(10.0 ** data[:, 0], unyt.Msun)
-y = unyt.unyt_array(data[:, 1], unyt.Mpc ** 2)
-yerr = unyt.unyt_array(data[:, 2:].T, unyt.Mpc ** 2)
+y = unyt.unyt_array(10.0 ** data[:, 1], unyt.Mpc ** 2)
+yerr = np.zeros((2, data.shape[0]))
+yerr[0, :] = 10.0 ** (data[:, 1] - data[:, 2])
+yerr[1, :] = 10.0 ** (data[:, 3] - data[:, 1])
+yerr = unyt.unyt_array(yerr, unyt.Mpc ** 2)
 
 # Meta-data
 comment = "No comment"
@@ -39,7 +42,7 @@ processed.associate_y(
     y,
     scatter=yerr,
     comoving=True,
-    description="$\mathrm{log}_{10} (\mathrm{E}(z)^{-2/3} Y_\mathrm{SZ, hse}(<5r_{500}) D_A^2$",
+    description="$\mathrm{E}(z)^{-2/3} Y_\mathrm{SZ, hse}(<5r_{500}) D_A^2$",
 )
 processed.associate_citation(citation, bibcode)
 processed.associate_name(name)

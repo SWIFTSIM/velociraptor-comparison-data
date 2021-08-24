@@ -9,10 +9,10 @@ import sys
 with open(sys.argv[1], "r") as handle:
     exec(handle.read())
 
-input_filename = "../raw/Sun09_entropy_profiles.txt"
+input_filename = "../raw/Rasmussen_entropy_profiles.txt"
 
 output_directory = "../"
-output_filename = "Sun09_entropy_profiles.hdf5"
+output_filename = "RasmussenYY_entropy_profiles.hdf5"
 
 if not os.path.exists(output_directory):
     os.mkdir(output_directory)
@@ -23,16 +23,13 @@ y = unyt.unyt_array(data[:, 1], unyt.dimensionless)
 yerr = np.zeros((2, data.shape[0]))
 yerr[0, :] = data[:, 1] - data[:, 2]
 yerr[1, :] = data[:, 3] - data[:, 1]
-yerr = np.zeros((2, data.shape[0]))
-yerr[0, :] = 10.0 ** (data[:, 1] - data[:, 2])
-yerr[1, :] = 10.0 ** (data[:, 3] - data[:, 1])
 yerr = unyt.unyt_array(yerr, unyt.dimensionless)
 
 # Meta-data
 comment = "No comment"
-citation = "Sun et al. (2009)"
-bibcode = "2009ApJ...693.1142S"
-name = "Entropy profiles for 43 nearby galaxy groups"
+citation = "Rasmussen et al. (??)"
+bibcode = "unknown"
+name = "Entropy profiles for ??"
 plot_as = "points"
 redshift = 0.0
 

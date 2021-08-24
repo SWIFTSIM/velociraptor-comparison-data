@@ -20,7 +20,10 @@ if not os.path.exists(output_directory):
 data = np.loadtxt(input_filename)
 x = unyt.unyt_array(10.0 ** data[:, 0], unyt.dimensionless)
 y = unyt.unyt_array(10.0 ** data[:, 1], unyt.dimensionless)
-yerr = unyt.unyt_array(10.0 ** data[:, 2:].T, unyt.dimensionless)
+yerr = np.zeros((2, data.shape[0]))
+yerr[0, :] = 10.0 ** (data[:, 1] - data[:, 2])
+yerr[1, :] = 10.0 ** (data[:, 3] - data[:, 1])
+yerr = unyt.unyt_array(yerr, unyt.dimensionless)
 
 # Meta-data
 comment = "No comment"
