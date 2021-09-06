@@ -12,7 +12,7 @@ with open(sys.argv[1], "r") as handle:
 input_filename = "../raw/Rasmussen_entropy_profiles.txt"
 
 output_directory = "../"
-output_filename = "RasmussenYY_entropy_profiles.hdf5"
+output_filename = "Rasmussen07_entropy_profiles.hdf5"
 
 if not os.path.exists(output_directory):
     os.mkdir(output_directory)
@@ -27,9 +27,9 @@ yerr = unyt.unyt_array(yerr, unyt.dimensionless)
 
 # Meta-data
 comment = "No comment"
-citation = "Rasmussen et al. (??)"
-bibcode = "unknown"
-name = "Entropy profiles for ??"
+citation = "Rasmussen et al. (2007)"
+bibcode = "2007MNRAS.380.1554R"
+name = "Entropy profiles for nearby galaxy groups."
 plot_as = "points"
 redshift = 0.0
 
