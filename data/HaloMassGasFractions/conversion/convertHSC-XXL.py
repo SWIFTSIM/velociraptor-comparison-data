@@ -14,7 +14,7 @@ with open(sys.argv[1], "r") as handle:
 h_sim = cosmology.h
 Omega_b = cosmology.Ob0
 Omega_m = cosmology.Om0
-FLATCDM = FlatLambdaCDM(H0=70, Om0=0.30)
+FLATCDM = FlatLambdaCDM(H0=cosmology.H0, Om0=cosmology.Om0)
 
 output_filename = "HSC-XXL.hdf5"
 output_directory = "../"
@@ -25,7 +25,7 @@ if not os.path.exists(output_directory):
 # Create a function for the fit from the paper
 def def_fgas_Aki(M500, z):
     # Cosmology correct M500 to cited cosmology
-    M500_cc = M500 * (h_sim / 70) ** (1.0)
+    M500_cc = M500 * (h_sim / 0.70) ** (1.0)
     # Convert to scale free
     M500_cc_e = M500_cc * FLATCDM.efunc(z)
     # Calculate ration with the pivot
@@ -37,13 +37,13 @@ def def_fgas_Aki(M500, z):
     # Convert it to Mgas
     Mgas = Mgas_e / FLATCDM.efunc(z)
     # Calculate fgas and cosmology correct it
-    fgas = Mgas * (68.1 / 70) ** (-1.5) / M500_cc
+    fgas = Mgas * (h_sim / 0.70) ** (-1.5) / M500_cc
     # Error in the exponent
     err_on_exp = np.sqrt(0.08 ** 2 + (0.16) ** 2 * Z ** 2)
     # Convert to linear error
     lin_err = np.abs(err_on_exp * np.exp(1.95 + 1.29 * Z) * 1e12)
     # Apply cosmology correction terms
-    fgas_err = lin_err * (68.1 / 70) ** (-1.5) / (M500_cc * FLATCDM.efunc(z))
+    fgas_err = lin_err * (h_sim / 0.70) ** (-1.5) / (M500_cc * FLATCDM.efunc(z))
     return fgas, fgas_err
 
 
