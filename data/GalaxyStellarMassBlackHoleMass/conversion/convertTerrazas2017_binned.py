@@ -28,7 +28,9 @@ M_star_high = (10 ** data[:, 2]) * unyt.Solar_Mass
 # Calculate scatter
 M_star_scatter_low = M_star - M_star_low
 M_star_scatter_high = M_star_high - M_star
-M_star_scatter = unyt.unyt_array((M_star_scatter_low, M_star_scatter_high ), units = unyt.Solar_Mass)
+M_star_scatter = unyt.unyt_array(
+    (M_star_scatter_low, M_star_scatter_high), units=unyt.Solar_Mass
+)
 
 # Read in BH mass - stellar mass ratios and convert to BH mass
 M_bh = (10 ** data[:, 3]) * M_star
@@ -38,7 +40,9 @@ M_bh_high = (10 ** data[:, 5]) * M_star
 # Calculate scatter
 M_bh_scatter_low = M_bh - M_bh_low
 M_bh_scatter_high = M_bh_high - M_bh
-M_bh_scatter = unyt.unyt_array((M_bh_scatter_low, M_bh_scatter_high ), units = unyt.Solar_Mass)
+M_bh_scatter = unyt.unyt_array(
+    (M_bh_scatter_low, M_bh_scatter_high), units=unyt.Solar_Mass
+)
 
 
 # Meta-data
@@ -53,7 +57,7 @@ bibcode = "2017ApJ...844..170T"
 name = "Black hole mass - stellar mass relation at z = 0"
 plot_as = "points"
 redshift = 0.0
-redshift_lower = 0.
+redshift_lower = 0.0
 redshift_upper = 0.1
 h = h_sim
 
