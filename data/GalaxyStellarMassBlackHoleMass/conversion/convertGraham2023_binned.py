@@ -20,10 +20,14 @@ if not os.path.exists(output_directory):
 
 data = np.loadtxt("../raw/Graham2023_binned.txt")
 
+# conversion for Mstar from_Kroupa (2002) to Chabrier (2003) IMF
+# (table 2, Bernardi et al, 2010, 2010MNRAS.404.2087B)
+log_M_offset = 0.05
+
 # Read in stellar masses
-M_star = (10 ** data[:, 0]) * unyt.Solar_Mass
-M_star_low = (10 ** data[:, 1]) * unyt.Solar_Mass
-M_star_high = (10 ** data[:, 2]) * unyt.Solar_Mass
+M_star = (10 ** (data[:, 0] + log_M_offset)) * unyt.Solar_Mass
+M_star_low = (10 ** (data[:, 1]+ log_M_offset)) * unyt.Solar_Mass
+M_star_high = (10 ** (data[:, 2]+ log_M_offset)) * unyt.Solar_Mass
 
 # Calculate scatter
 M_star_scatter_low = M_star - M_star_low
@@ -44,14 +48,14 @@ M_bh_scatter = unyt.unyt_array(
     (M_bh_scatter_low, M_bh_scatter_high), units=unyt.Solar_Mass
 )
 
-
 # Meta-data
 comment = (
     "Binned median galaxy stellar masses and black hole masses from Graham & "
     "Sahu (2023) (2023MNRAS.518.2177G). The BH masses for different "
     "morphological types are weighted by using fractions of those "
     "morphological types as a function of stellar mass from Moffet et al. "
-    "(2016) (2016MNRAS.462.4336M). "
+    "(2016) (2016MNRAS.462.4336M). Converted from the Kroupa (2002) to "
+    "Chabrier (2003) IMF."
 )
 citation = "Graham & Sahu (2023), binned"
 bibcode = "2023MNRAS.518.2177G"
