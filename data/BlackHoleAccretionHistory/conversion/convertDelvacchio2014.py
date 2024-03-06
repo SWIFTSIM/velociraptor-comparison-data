@@ -33,15 +33,15 @@ a_low = 1 / (1 + z_high)
 a_high = 1 / (1 + z_low)
 a_scatter = unyt.unyt_array((a - a_low, a_high - a))
 
-BHARD = unyt.unyt_array(10**raw[:, 3], "Msun / yr / Mpc**3") 
-BHARD_low = unyt.unyt_array(10**raw[:, 4], "Msun / yr / Mpc**3") 
-BHARD_high = unyt.unyt_array(10**raw[:, 5], "Msun / yr / Mpc**3") 
+BHARD = unyt.unyt_array(10 ** raw[:, 3], "Msun / yr / Mpc**3")
+BHARD_low = unyt.unyt_array(10 ** raw[:, 4], "Msun / yr / Mpc**3")
+BHARD_high = unyt.unyt_array(10 ** raw[:, 5], "Msun / yr / Mpc**3")
 
 # Correct for cosmology
 BHARD = BHARD * (h_sim / h_obs) ** -2
 BHARD_low = BHARD_low * (h_sim / h_obs) ** -2
 BHARD_high = BHARD_high * (h_sim / h_obs) ** -2
-BHARD_scatter = unyt.unyt_array((BHARD - BHARD_low,  BHARD_high - BHARD))
+BHARD_scatter = unyt.unyt_array((BHARD - BHARD_low, BHARD_high - BHARD))
 
 # Meta-data
 comment = (
@@ -59,7 +59,10 @@ h = h_sim
 processed = ObservationalData()
 processed.associate_x(a, scatter=a_scatter, comoving=True, description="Scale-factor")
 processed.associate_y(
-    BHARD, scatter=BHARD_scatter, comoving=True, description="Black-hole Accretion Rate Density"
+    BHARD,
+    scatter=BHARD_scatter,
+    comoving=True,
+    description="Black-hole Accretion Rate Density",
 )
 processed.associate_citation(citation, bibcode)
 processed.associate_name(name)

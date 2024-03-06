@@ -26,8 +26,8 @@ log_M_offset = 0.05
 
 # Read in stellar masses
 M_star = (10 ** (data[:, 0] + log_M_offset)) * unyt.Solar_Mass
-M_star_low = (10 ** (data[:, 1]+ log_M_offset)) * unyt.Solar_Mass
-M_star_high = (10 ** (data[:, 2]+ log_M_offset)) * unyt.Solar_Mass
+M_star_low = (10 ** (data[:, 1] + log_M_offset)) * unyt.Solar_Mass
+M_star_high = (10 ** (data[:, 2] + log_M_offset)) * unyt.Solar_Mass
 
 # Calculate scatter
 M_star_scatter_low = M_star - M_star_low
