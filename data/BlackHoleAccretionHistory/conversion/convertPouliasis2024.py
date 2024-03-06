@@ -42,27 +42,30 @@ redshift = np.mean(z)
 h = h_sim
 
 for i in range(2):
-    
+
     # Load different data depending on which bolometric correction is being applied
-    if i==0:
-        BHARD_low = unyt.unyt_array(10**raw[:, 1], "Msun / yr / Mpc**3") 
-        BHARD_high = unyt.unyt_array(10**raw[:, 2], "Msun / yr / Mpc**3") 
-    if i==1:
-        BHARD_low = unyt.unyt_array(10**raw[:, 3], "Msun / yr / Mpc**3") 
-        BHARD_high = unyt.unyt_array(10**raw[:, 4], "Msun / yr / Mpc**3") 
+    if i == 0:
+        BHARD_low = unyt.unyt_array(10 ** raw[:, 1], "Msun / yr / Mpc**3")
+        BHARD_high = unyt.unyt_array(10 ** raw[:, 2], "Msun / yr / Mpc**3")
+    if i == 1:
+        BHARD_low = unyt.unyt_array(10 ** raw[:, 3], "Msun / yr / Mpc**3")
+        BHARD_high = unyt.unyt_array(10 ** raw[:, 4], "Msun / yr / Mpc**3")
     BHARD = 0.5 * BHARD_low + 0.5 * BHARD_high
 
     # Correct for cosmology
     BHARD = BHARD * (h_sim / h_obs) ** -2
     BHARD_low = BHARD_low * (h_sim / h_obs) ** -2
     BHARD_high = BHARD_high * (h_sim / h_obs) ** -2
-    BHARD_scatter = unyt.unyt_array((BHARD - BHARD_low,  BHARD_high - BHARD))
+    BHARD_scatter = unyt.unyt_array((BHARD - BHARD_low, BHARD_high - BHARD))
 
     # Write everything
     processed = ObservationalData()
     processed.associate_x(a, scatter=None, comoving=True, description="Scale-factor")
     processed.associate_y(
-        BHARD, scatter=BHARD_scatter, comoving=True, description="Black-hole Accretion Rate Density"
+        BHARD,
+        scatter=BHARD_scatter,
+        comoving=True,
+        description="Black-hole Accretion Rate Density",
     )
     processed.associate_citation(citation, bibcode)
     processed.associate_name(name)

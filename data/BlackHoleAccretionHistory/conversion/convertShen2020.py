@@ -41,16 +41,40 @@ redshift = np.mean(z)
 h = h_sim
 
 for i in range(2):
-    
+
     # Load two different datasets depending on which fit the authors did
-    if i==0:
-        BLD = 10**unyt.unyt_array(raw[:, 1], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
-        BLD_low = 10**unyt.unyt_array(raw[:, 2], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
-        BLD_high = 10**unyt.unyt_array(raw[:, 3], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
-    if i==1:
-        BLD = 10**unyt.unyt_array(raw[:, 4], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
-        BLD_low = 10**unyt.unyt_array(raw[:, 5], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
-        BLD_high = 10**unyt.unyt_array(raw[:, 6], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
+    if i == 0:
+        BLD = (
+            10 ** unyt.unyt_array(raw[:, 1], "dimensionless")
+            * unyt.erg
+            / (unyt.s * unyt.Mpc ** 3)
+        )
+        BLD_low = (
+            10 ** unyt.unyt_array(raw[:, 2], "dimensionless")
+            * unyt.erg
+            / (unyt.s * unyt.Mpc ** 3)
+        )
+        BLD_high = (
+            10 ** unyt.unyt_array(raw[:, 3], "dimensionless")
+            * unyt.erg
+            / (unyt.s * unyt.Mpc ** 3)
+        )
+    if i == 1:
+        BLD = (
+            10 ** unyt.unyt_array(raw[:, 4], "dimensionless")
+            * unyt.erg
+            / (unyt.s * unyt.Mpc ** 3)
+        )
+        BLD_low = (
+            10 ** unyt.unyt_array(raw[:, 5], "dimensionless")
+            * unyt.erg
+            / (unyt.s * unyt.Mpc ** 3)
+        )
+        BLD_high = (
+            10 ** unyt.unyt_array(raw[:, 6], "dimensionless")
+            * unyt.erg
+            / (unyt.s * unyt.Mpc ** 3)
+        )
 
     # Correct for cosmology
     BLD = BLD * (h_sim / h_obs) ** -2
@@ -60,16 +84,16 @@ for i in range(2):
     # Convert to BHARD
     radiative_efficiency = 0.1
     speed_of_light = speed_of_light.to(unyt.cm / unyt.s)
-    BHARD = BLD / (radiative_efficiency * speed_of_light**2)
-    BHARD_low = BLD_low / (radiative_efficiency * speed_of_light**2)
-    BHARD_high = BLD_high / (radiative_efficiency * speed_of_light**2)
+    BHARD = BLD / (radiative_efficiency * speed_of_light ** 2)
+    BHARD_low = BLD_low / (radiative_efficiency * speed_of_light ** 2)
+    BHARD_high = BLD_high / (radiative_efficiency * speed_of_light ** 2)
 
     # Convert units to Msun * yr^-1 * Mpc^-3
-    BHARD = BHARD.to(unyt.Msun / unyt.yr / unyt.Mpc**3)
-    BHARD_low = BHARD_low.to(unyt.Msun / unyt.yr / unyt.Mpc**3)
-    BHARD_high = BHARD_high.to(unyt.Msun / unyt.yr / unyt.Mpc**3)
+    BHARD = BHARD.to(unyt.Msun / unyt.yr / unyt.Mpc ** 3)
+    BHARD_low = BHARD_low.to(unyt.Msun / unyt.yr / unyt.Mpc ** 3)
+    BHARD_high = BHARD_high.to(unyt.Msun / unyt.yr / unyt.Mpc ** 3)
 
-    BHARD_scatter = unyt.unyt_array((BHARD - BHARD_low,  BHARD_high - BHARD))
+    BHARD_scatter = unyt.unyt_array((BHARD - BHARD_low, BHARD_high - BHARD))
 
     citation = f"Shen et al. (2020) (multi-wavelength, fit {i})"
 
@@ -77,7 +101,10 @@ for i in range(2):
     processed = ObservationalData()
     processed.associate_x(a, scatter=None, comoving=True, description="Scale-factor")
     processed.associate_y(
-        BHARD, scatter=BHARD_scatter, comoving=True, description="Black-hole Accretion Rate Density"
+        BHARD,
+        scatter=BHARD_scatter,
+        comoving=True,
+        description="Black-hole Accretion Rate Density",
     )
     processed.associate_citation(citation, bibcode)
     processed.associate_name(name)

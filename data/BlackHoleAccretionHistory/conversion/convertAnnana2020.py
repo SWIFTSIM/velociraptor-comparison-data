@@ -5,6 +5,7 @@ import numpy as np
 import os
 import sys
 from unyt import speed_of_light
+
 speed_of_light = speed_of_light.to(unyt.cm / unyt.s)
 
 # Exec the master cosmology file passed as first argument
@@ -30,15 +31,18 @@ z = unyt.unyt_array(raw[:, 0], "dimensionless")
 # Convert to scale factor
 a = 1 / (1 + z)
 
-BLD = 10**unyt.unyt_array(raw[:, 1], "dimensionless") * unyt.erg / (unyt.s * unyt.Mpc**3)
+BLD = (
+    10 ** unyt.unyt_array(raw[:, 1], "dimensionless")
+    * unyt.erg
+    / (unyt.s * unyt.Mpc ** 3)
+)
 
 # Correct for cosmology
 BLD = BLD * (h_sim / h_obs) ** -2
 
 # Meta-data
 comment = (
-    "Mixed-wavelength observations"
-    f"h-corrected using cosmology: {cosmology.name}. "
+    "Mixed-wavelength observations" f"h-corrected using cosmology: {cosmology.name}. "
 )
 bibcode = "2020ApJ...903...85A"
 name = "Redshift - Black-hole Mass Accretion Rate Density relation"
@@ -50,19 +54,22 @@ radiative_efficiencies = [0.1, 0.34]
 
 # Write two files, for different radiative efficiencies
 for i in range(2):
-    
+
     # Convert to BHARD
-    BHARD = BLD / (radiative_efficiencies[i] * speed_of_light**2)
+    BHARD = BLD / (radiative_efficiencies[i] * speed_of_light ** 2)
 
     # Convert units to Msun * yr^-1 * Mpc^-3
-    BHARD = BHARD.to(unyt.Msun / unyt.yr / unyt.Mpc**3)
+    BHARD = BHARD.to(unyt.Msun / unyt.yr / unyt.Mpc ** 3)
 
     # Write everything
     citation = f"Ananna et al. (2020) (X-ray, eps_rad = {radiative_efficiencies[i]})"
     processed = ObservationalData()
     processed.associate_x(a, scatter=None, comoving=True, description="Scale-factor")
     processed.associate_y(
-        BHARD, scatter=None, comoving=True, description="Black-hole Accretion Rate Density"
+        BHARD,
+        scatter=None,
+        comoving=True,
+        description="Black-hole Accretion Rate Density",
     )
     processed.associate_citation(citation, bibcode)
     processed.associate_name(name)
