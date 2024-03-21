@@ -46,10 +46,13 @@ for z in [4, 5, 6, 7, 8, 9]:
     phi = 10.0 ** raw[:, 3]
     phi_hi = 10.0 ** (raw[:, 3] + raw[:, 4])
     phi_lo = 10.0 ** (raw[:, 3] - raw[:, 5])
-    phi_scatter = unyt.unyt_array(
-        (phi[mask] - phi_lo[mask], phi_hi[mask] - phi[mask]),
-        units=1.0 / unyt.Mpc ** 3 
-    ) * (h_sim / h_obs) ** 3
+    phi_scatter = (
+        unyt.unyt_array(
+            (phi[mask] - phi_lo[mask], phi_hi[mask] - phi[mask]),
+            units=1.0 / unyt.Mpc ** 3,
+        )
+        * (h_sim / h_obs) ** 3
+    )
     phi = unyt.unyt_array(phi, units=1.0 / unyt.Mpc ** 3) * (h_sim / h_obs) ** 3
 
     processed = ObservationalData()
