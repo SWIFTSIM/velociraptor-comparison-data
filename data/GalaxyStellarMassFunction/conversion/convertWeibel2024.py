@@ -12,11 +12,8 @@ import sys
 with open(sys.argv[1], "r") as handle:
     exec(handle.read())
 
-comment = (
-    "Paper assumes a Kroupa IMF.",
-    "Stellar masses are reduced by 10% to convert to Chabrier.",
-)
-citation = f"Wiebel et al. (2024)"
+comment = ("Paper assumes a Kroupa IMF so stellar masses are converted to Chabrier.",)
+citation = f"Weibel et al. (2024)"
 bibcode = "2024arXiv240308872W"
 name = f"Galaxy Stellar Mass Function"
 plot_as = "line"
@@ -40,8 +37,8 @@ for z in [4, 5, 6, 7, 8, 9]:
     mask = raw[:, 0] == zmin
 
     Mstar = 10.0 ** raw[:, 2] * unyt.Msun
-    # Reduction based on Fig 4 of 2014ARA%26A..52..415M
-    Mstar *= 0.9
+    Mstar *= (h_sim / h_obs) ** (-2)
+    Mstar *= kroupa_to_chabrier_mass
 
     phi = 10.0 ** raw[:, 3]
     phi_hi = 10.0 ** (raw[:, 3] + raw[:, 4])
